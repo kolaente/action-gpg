@@ -51,8 +51,8 @@ runs:
     - name: Import GPG Key
       shell: sh
       run: |
-        echo ${{ inputs.gpg-passphrase }} > passfile
-        echo -n ${{ inputs.gpg-sign-key }} | base64 --decode > signkey
+        echo "${{ inputs.gpg-passphrase }}" > passfile
+        echo -n "${{ inputs.gpg-sign-key }}" | base64 --decode > signkey
         gpg --pinentry-mode loopback \
           --passphrase-file passfile \
           --import signkey
