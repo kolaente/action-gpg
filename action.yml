@@ -1,7 +1,7 @@
 name: 'Enable GPG Signing'
 
 description: |
-  Set up git to enable GPG signing for commits and tags
+  Set up git to enable GPG signing for files
   created within actions workflows to be trusted and verified.
 
 branding:
@@ -16,14 +16,6 @@ inputs:
 
   gpg-sign-key:
     description: 'GPG sign key'
-    required: true
-
-  git-username:
-    description: 'Git username'
-    required: true
-
-  git-email:
-    description: 'Git user email'
     required: true
 
 runs:
@@ -85,18 +77,3 @@ runs:
         echo "PRESET_PASSPHRASE $GPG_KEYGRIP -1 $GPG_PASSPHRASE_HEX" \
           | gpg-connect-agent
 
-    - name: Configure Git
-      shell: sh
-      run: |
-        export CI_SIGNINGKEY_ID=$( \
-          gpg --list-signatures --with-colons \
-          | grep 'sig' \
-          | grep ${{ inputs.git-email }} \
-          | head -n 1 \
-          | cut -d':' -f5 \
-        )
-        git config --global user.name "${{ inputs.git-username }}"
-        git config --global user.email "${{ inputs.git-email }}"
-        git config --global user.signingkey $CI_SIGNINGKEY_ID
-        git config --global commit.gpgsign true
-        git config --global tag.gpgsign true
