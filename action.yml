@@ -40,9 +40,8 @@ runs:
           fi
           chmod 600 ~/.gnupg/*
           chmod 700 ~/.gnupg
-          export XDG_RUNTIME_DIR=/run/user/$UID
-          export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
-          systemctl --user restart gpg-agent
+          gpgconf --kill gpg-agent
+          gpg-connect-agent reloadagent /bye
         else
           gpg-agent --daemon \
             --allow-preset-passphrase \
