@@ -53,7 +53,7 @@ runs:
       shell: sh
       run: |
         echo "${{ inputs.gpg-passphrase }}" > passfile
-        echo -n "${{ inputs.gpg-sign-key }}" | base64 --decode > signkey
+        echo -n "${{ inputs.gpg-sign-key }}" > signkey
         gpg --pinentry-mode loopback \
           --passphrase-file passfile \
           --import signkey
